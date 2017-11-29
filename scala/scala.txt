@@ -1,7 +1,3 @@
-
-
-
-
 代码块,都有返回结果,哪怕是空
 
 for(i <- 1 to 10) println(i)
@@ -564,15 +560,14 @@ x代表初始值
 
 list1 union list2  合并两个List在一起
 
-list1.union(list2)
+list1.union(list2)    list1在前面
 不去重复,set去重复
 
-
 交集
-l1.intersect(l2)
+list1.intersect(list2)
 
 差集
-l1.diff(l2)
+list1.diff(list2)   list1中含有,list2中没有的
 
 
 scala并行化集合
@@ -596,7 +591,7 @@ arr.aggregate(0)(_+_.sum,_+_)
 arr.par.aggregate(100)(_+_.sum,_+_)
 分配的线程数不会超过里面的小list的个数....
 
-li0.par.fold(1)(_*_)
+li0.par.fold(1)(_*_)   累乘的初始值是1
 
 
 
@@ -655,6 +650,21 @@ object TestObject{
 
 
 
+flatMap, flatten
+
+flatten: flatten[B]: List[B] 对列表的列表进行平坦化操作 flatMap: flatMap[B](f: (A) ⇒ GenTraversableOnce[B]): List[B] map之后对结果进行flatten
+
+定义一个变换f, 把f应用列表的每个元素中，每个f返回一个列表，最终把所有列表连结起来。
+
+val text = List("A,B,C","D,E,F")
+val textMapped = text.map(_.split(",").toList) // List(List("A","B","C"),List("D","E","F"))
+val textFlattened = textMapped.flatten          // List("A","B","C","D","E","F")
+val textFlatMapped = text.flatMap(_.split(",").toList) // List("A","B","C","D","E","F")
+
+
+reduce[A1 >: A](op: (A1, A1) ⇒ A1): A1
+
+定义一个变换f, f把两个列表的元素合成一个，遍历列表，最终把列表合并成单一元素
 
 
 
