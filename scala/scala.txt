@@ -670,6 +670,220 @@ reduce[A1 >: A](op: (A1, A1) ⇒ A1): A1
 
 
 
+函数可以作为参数传递到方法中
+
+
+val f=(x:Int)=>x*x
+
+f(5)
+
+val arr=Array(1,2,3,4,5)
+
+arr.map(f)
+
+匿名函数
+arr.map((x:Int)=>x*x)
+省略类型
+arr.map((x)=>x*x)
+
+arr.map(x=>x*x)
+
+arr.map(_*10)
+
+
+val p=(x:Int)=> x%2==0
+
+arr.filter(p)
+
+
+
+
+把方法转换成了函数.....
+
+m1是方法名,  m1 _   返回一个函数,进行了转换
+
+val f=m1 _ 得到一个函数
+arr.map(f)
+
+arr.map(m1 _)
+
+
+arr.map(x=>m1(x))   输入是x,输出是m1(x)的结果
+
+
+复杂的函数,接受一个函数作为参数....数据在那里,就看你传递什么逻辑进来了
+def m2(f:(Int,Int)=>Double):Unit={
+print( f(1,2) )
+}
+
+调用 m2((x:Int,y:Int)=>(x+y).toDouble)
+
+
+
+
+val arr=Array("hello tom hello jerry","hello tom hello tom","hello tom hello jerry")
+
+求单词的频率
+
+arr.map(x=>x.split(" ")).flatten
+arr.map(_.split(" ")).flatten
+val words=arr.flatMap(_.split(" "))
+
+
+
+原组:
+val t=("a",1)
+特殊集合,多种类型,多个
+
+val t2=("a",1,2.0,"hello",100L)
+
+取出元素
+t2._1   ._下标从1开始的         超过下标报错,0下标会报错
+
+两个元素就是对偶原组.就是map
+
+val m1=Map("a"->1,"b"->2)
+
+原组定义map
+val m2=Map(("c",1),("d",2),("e",3))
+
+
+
+
+words.map((_,1))  每个单词都是一个map了,value是1
+
+words.map(x=>(x,1))
+
+val grouped=wordAndOne.groupBy(_._1)  按照原组的第一个元素分组
+
+
+val res=grouped.map(t => (t._1,t._2.length))  得到结果
+得到一个hashMap
+
+
+val wordsRes=res.toList
+
+wordsRes.sortBy(_._2)  按照升序排
+
+降序wordsRes.sortBy(_._2).reverse
+
+arr.flatMap(_.split(" ")).map((_,1)).groupBy(_._1),map(t=>t._1,t._2.length).toList.sortBy(_._2).reverse
+
+
+Iterator（迭代器）不是一个集合，它是一种用于访问集合的方法。
+val it = Iterator("Baidu", "Google", "Runoob", "Taobao")
+最大值it.max,最小值it.min   注意一次迭代就结束了,不能回去的
+
+it.size 或 it.length 方法来查看迭代器中的元素个数
+
+
+复习:
+定义方法: def m1(x:Int):Int=x+2
+
+如果有返回一定有等号=
+
+
+定义函数3种:
+val f=(x:Int)=>x*x
+
+val f1:Int=>Int={x=>x*x}
+
+new Function2  重写其中的方法...
+
+new Function2[Int,Double,(Int,Double)]{...}
+
+
+        传参列表      返回一个原组        返回一个原组
+val f2:(Int,Double)=>(Double,Int)={(x,y)=>(y,x)}
+
+
+方法可以转换为函数,函数可以作为参数传递到方法中
+
+val arr=Array(1,2,3,4)
+偶数位置平方
+arr.filter(_%2==0).map(x=>x*x)
+
+val arr 数组,指向不可变,但是内容可变
+
+可变数组,导包
+val ab=new ArrayBuffer(1,2,3,4,5)
+
+ab+=3 增加
+ab-=5 减少
+
+集合: 可变集合         不可变集合
+      长度内容都可变   长度/内容都不可变
+
+默认是不可变的
+val list=List(1,2,3,4,5)
+list(0)
+
+val map=Map("a"->1,"b"->2,"c"->3)  不可变
+map("a")
+map("b")=100
+
+Predef 类中有定义
+
+想用可变的导包
+scala.collection.mutable._
+
+map+="d"->4
+map+=(("e",5))  原组
+
+
+
+
+JAVA实现函数式编程:
+
+定义一个Mylist类,自己实现map方法, new Mylist(list).map().filter()
+装饰,增强
+public class Mylist{
+	private List<String> list;
+
+	List<String> lst=new ArrayList<String>();
+
+	public Mylist(List<String> list){
+		this.list=list;
+	}
+
+
+	//定义一个接口MapFunction,传递函数进来
+	public List<String> map(MapFunction func){
+//	public Mylist map(MapFunction func){    修改称为链式编程,不断的可以.map().map()
+//  for(int i=0;i<list.size();i++){
+//	String tmp=lst.get(i);
+//	String s=func.operate(tmp);
+//	lst.set(i,s);
+//  return list;
+//  }
+
+		for(String str list){
+			String s=func.operate(str);
+			lst.add(s);
+		}
+	return lst;
+	}
+
+}
+
+public interface MapFunction{
+	String operate(String str);
+
+	继续添加filter方法
+}
+
+
+不同的实现就可以得到不同的返回了
+
+
+函数式编程,就是可以传一个任意具体的实现函数.
+
+
+
+
+
+
+
 
 
 
